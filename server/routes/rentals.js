@@ -22,9 +22,9 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('', UserCtrl.authMiddleware, (req, res) => {
-    const { title, city, street, category, image, shared, bedroom, description, dailyRate } = req.body;
+    const { title, city, street, category, image, shared, bedrooms, description, dailyRate } = req.body;
     const user = res.locals.user;
-    const rental = new Rental({ title, city, street, category, image, shared, bedroom, description, dailyRate });
+    const rental = new Rental({ title, city, street, category, image, shared, bedrooms, description, dailyRate });
     rental.user = user;
     Rental.create(rental, function (err, newRental) {
         if (err) {
