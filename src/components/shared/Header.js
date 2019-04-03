@@ -17,11 +17,11 @@ class Header extends React.Component {
 
     renderAuthButtons(isAuth) {
         if (isAuth) {
-            return <a className='nav-item nav-link clickable' onClick={this.handleLogout}>Logout</a>
+            return <a href="#" className='nav-item nav-link clickable' onClick={this.handleLogout}>Logout</a>
         }
         return (
             <React.Fragment>
-                <Link className='nav-item nav-link active' to='/login'>Login <span className='sr-only'>(current)</span></Link>
+                <Link className='nav-item nav-link' to='/login'>Login <span className='sr-only'>(current)</span></Link>
                 <Link className='nav-item nav-link' to='/register'>Register</Link>
             </React.Fragment>
         )
