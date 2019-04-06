@@ -55,7 +55,7 @@ class Header extends React.Component {
                     <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
                         <div className='navbar-nav ml-auto'>
                             {isAuth &&
-                                <a className='nav-item nav-link' >{username}</a>
+                                <a className='nav-item nav-link' href="#" >{username}</a>
                             }
                             {this.renderOwnerSection(isAuth)};
                             {this.renderAuthButtons(isAuth)};
