@@ -96,8 +96,7 @@ export class BwmFileUpload extends React.Component {
     }
 
     onSuccess(uploadedImage) {
-        const { input: { onChange } } = this.props;
-        // const { onChange } = this.props.input || this.props;
+        const { onChange } = this.props.input || this.props;
         this.resetToDefaultState('OK');
         onChange(uploadedImage);
     }
@@ -135,7 +134,6 @@ export class BwmFileUpload extends React.Component {
     }
 
     render() {
-        const { label, meta: { touched, error } } = this.props;
         const { selectedFile, imageBase64, crop, initialImageBase64 } = this.state;
 
         return (
@@ -162,9 +160,6 @@ export class BwmFileUpload extends React.Component {
                         onImageLoaded={(image) => this.onImageLoaded(image)}
                         onComplete={(crop, pixelCrop) => this.onCropCompleted(crop, pixelCrop)}
                     />
-                }
-                {touched &&
-                    ((error && <div className='alert alert-danger'>{error}</div>))
                 }
                 {
                     imageBase64 &&
