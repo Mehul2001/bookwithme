@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { BookingCard, PaymentCard } from './BookingCard';
+import { ReviewModal } from 'components/review/ReviewModal';
+import { isExpired } from 'helpers';
 
 import * as actions from 'actions';
 
@@ -38,8 +40,30 @@ class BookingManage extends React.Component {
             .catch(err => console.error(err))
     }
 
+    handleReviewCreated = (review, bookingIndex) => {
+        const { dispatch } = this.props;
+        const { data: bookings } = this.props.userBookings;
+
+        // const index = bookings.findIndex((booking) => booking._id === updatedBooking._id)
+        // updatedBooking.review = review;
+        bookings[bookingIndex].review = review
+
+        dispatch(actions.updateBookings(bookings));
+    }
+
     renderBookings(bookings) {
-        return bookings.map((booking, index) => <BookingCard booking={booking} key={index} />);
+        return bookings
+            .map((booking, index) =>
+                <BookingCard booking={booking}
+                    key={index}
+                    hasReview={!!booking.review}
+                    isExpired={isExpired(booking.endAt)}
+                    reviewModal={() =>
+                        <ReviewModal onReviewCreated={(review) => {
+                            this.handleReviewCreated(review, index);
+                        }}
+                            bookingId={booking._id} />}
+                />);
     }
     renderPayments(payments) {
         return payments.map((payment, index) => <PaymentCard booking={payment.booking}
