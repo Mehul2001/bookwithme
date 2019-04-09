@@ -49,7 +49,7 @@ class Booking extends React.Component {
     }
 
     checkInvalidDates(date) {
-        //return this.bookedOutDates.includes(date.format('Y/MM/DD')) || date.diff(moment(), 'days') < 0;
+        return this.bookedOutDates.includes(date.format('Y/MM/DD')) || date.diff(moment(), 'days') < 0;
     }
 
     handleApply(event, picker) {
