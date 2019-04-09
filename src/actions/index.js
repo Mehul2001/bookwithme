@@ -17,7 +17,8 @@ import {
     UPDATE_RENTAL_FAIL,
     RESET_RENTAL_ERRORS,
     RELOAD_MAP,
-    RELOAD_MAP_FINISH
+    RELOAD_MAP_FINISH,
+    UPDATE_BOOKINGS
 } from './types';
 
 const axiosInstance = axiosService.getInstance();
@@ -83,9 +84,12 @@ export const fetchRentals = (city) => {
 export const fetchRentalById = (rentalId) => {
     return function (dispatch) {
         dispatch(fetchRentalByIdInit())
-        axios.get(`/api/v1/rentals/${rentalId}`)
+        return axios.get(`/api/v1/rentals/${rentalId}`)
             .then(res => res.data)
-            .then(rental => dispatch(fetchRentalByIdSuccess(rental)));
+            .then(rental => {
+                dispatch(fetchRentalByIdSuccess(rental));
+                return rental;
+            });
     }
 }
 export const createRental = (rentalData) => {
@@ -146,6 +150,13 @@ const fetchUserBookingsFail = (errors) => {
     return {
         type: FETCH_USER_BOOKINGS_FAIL,
         errors
+    }
+}
+
+export const updateBookings = (bookings) => {
+    return {
+        type: UPDATE_BOOKINGS,
+        bookings
     }
 }
 
@@ -259,6 +270,21 @@ export const acceptPayment = (payment) => {
 
 export const declinePayment = (payment) => {
     return axiosInstance.post('/payments/decline', payment)
+        .then(res => res.data)
+        .catch(({ response }) => Promise.reject(response.data.errors))
+}
+
+
+//REVIEW FEATURES HERE
+
+export const createReview = (reviewData, bookingId) => {
+    return axiosInstance.post(`/reviews?bookingId=${bookingId}`, reviewData)
+        .then(res => res.data)
+        .catch(({ response }) => Promise.reject(response.data.errors))
+}
+
+export const getReviews = (rentalId) => {
+    return axiosInstance.get(`/reviews?rentalId=${rentalId}`)
         .then(res => res.data)
         .catch(({ response }) => Promise.reject(response.data.errors))
 }

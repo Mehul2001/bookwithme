@@ -19,3 +19,10 @@ export const getRangeOfDates = (startAt, endAt, dateFormat = 'Y/MM/DD') => {
     tempDates.push(mEndAt.format(dateFormat));
     return tempDates;
 }
+
+export const isExpired = (date) => {
+    const dateNow = moment();
+    const dateM = moment(date);
+
+    return dateM.isBefore(dateNow);
+}
